@@ -27,15 +27,15 @@ namespace SamlMetdataProxy
             foreach (var md in config.GetSection("Metadata").Get<IEnumerable<MetadataConfigEntry>>())
             {
                 string metadataUri = md.MetadataUri ??
-                    throw new InvalidOperationException($"MetadataUri is missing in metadata section in config.");
+                    throw new InvalidOperationException($"MetadataUri is missing in metadata section.");
                 string name = md.Name ??
-                    throw new InvalidOperationException("Name is missing in metadata section in config.");
+                    throw new InvalidOperationException("Name is missing in metadata section.");
                 string certificatePath = md.TrustedSigningCertificate ??
-                    throw new InvalidOperationException($"TrustedSigningCertificate is missing in metadata section in config.");
+                    throw new InvalidOperationException($"TrustedSigningCertificate is missing in metadata section.");
 
                 if (!Uri.TryCreate(metadataUri, UriKind.Absolute, out Uri? uri))
                 {
-                    throw new InvalidOperationException($"MetadataUri is not a valid URI in metadata section in config.");
+                    throw new InvalidOperationException($"MetadataUri is not a valid URI in metadata section.");
                 }
                 bool skipSignatureValidation = md.SkipSignatureValidation != null && md.SkipSignatureValidation.Value;
                 cache.AddFederation(name, certificatePath, uri, skipSignatureValidation);
